@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local backups
+backups/
+*.backup
+*.backup.*
+*.bak
+*.old
+
+# Runtime
+coverage/
+.cache/
+
+# NexaISP local historical backups
+**/*.backup*
+**/*.bak
+**/*.old
+**/backups/
