@@ -10,6 +10,7 @@ import AppLayout from './components/layout/AppLayout'
 import Dashboard from './pages/dashboard/Dashboard'
 import Customers from './pages/customers/Customers'
 import CustomerNew from './pages/customers/CustomerNew'
+import Contracts from './pages/contracts/Contracts'
 import Login from './pages/auth/Login'
 import { getSessionUser } from './api/session'
 
@@ -31,6 +32,8 @@ function App() {
   const [authState, setAuthState] =
     useState<AuthState>('checking')
 
+  const [path, setPath] = useState(getPath)
+
   useEffect(() => {
     let mounted = true
 
@@ -51,8 +54,36 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    function handlePopState() {
+      setPath(getPath())
+    }
+
+    window.addEventListener(
+      'popstate',
+      handlePopState,
+    )
+
+    return () => {
+      window.removeEventListener(
+        'popstate',
+        handlePopState,
+      )
+    }
+  }, [])
+
+  function navigate(to: string) {
+    if (to === window.location.pathname) {
+      return
+    }
+
+    window.history.pushState({}, '', to)
+    setPath(to)
+  }
+
   function handleLoginSuccess() {
     setAuthState('authenticated')
+    navigate('/')
   }
 
   if (authState === 'checking') {
@@ -81,20 +112,28 @@ function App() {
     )
   }
 
-  const path = getPath()
-
   let page
 
   if (path === '/clientes/novo') {
-    page = <CustomerNew />
+    page = (
+      <CustomerNew
+        onNavigate={navigate}
+      />
+    )
   } else if (path === '/clientes') {
-    page = <Customers />
+    page = (
+      <Customers
+        onNavigate={navigate}
+      />
+    )
+  } else if (path === '/contratos') {
+    page = <Contracts />
   } else {
     page = <Dashboard />
   }
 
   return (
-    <AppLayout>
+    <AppLayout onNavigate={navigate}>
       {page}
     </AppLayout>
   )

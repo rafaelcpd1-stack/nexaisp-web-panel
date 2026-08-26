@@ -1,12 +1,31 @@
-export default function Sidebar() {
+interface SidebarProps {
+  onNavigate: (to: string) => void
+}
+
+export default function Sidebar({
+  onNavigate,
+}: SidebarProps) {
+  function handleNavigation(
+    event: React.MouseEvent<HTMLAnchorElement>,
+    to: string,
+  ) {
+    event.preventDefault()
+    onNavigate(to)
+  }
+
   return (
     <aside className="sidebar">
       <div className="brand">
         <div className="brand-mark">N</div>
 
         <div>
-          <div className="brand-name">NexaISP</div>
-          <div className="brand-subtitle">ERP / OSS / BSS</div>
+          <div className="brand-name">
+            NexaISP
+          </div>
+
+          <div className="brand-subtitle">
+            ERP / OSS / BSS
+          </div>
         </div>
       </div>
 
@@ -15,8 +34,17 @@ export default function Sidebar() {
           <span>PRINCIPAL</span>
         </div>
 
-        <a href="/" className="navigation-item active">
-          <span className="navigation-icon">⌂</span>
+        <a
+          href="/"
+          className="navigation-item"
+          onClick={(event) =>
+            handleNavigation(event, '/')
+          }
+        >
+          <span className="navigation-icon">
+            ⌂
+          </span>
+
           <span>Dashboard</span>
         </a>
 
@@ -24,23 +52,59 @@ export default function Sidebar() {
           <span>OPERAÇÃO</span>
         </div>
 
-        <a href="/clientes" className="navigation-item">
-          <span className="navigation-icon">◉</span>
+        <a
+          href="/clientes"
+          className="navigation-item"
+          onClick={(event) =>
+            handleNavigation(event, '/clientes')
+          }
+        >
+          <span className="navigation-icon">
+            ◉
+          </span>
+
           <span>Clientes</span>
         </a>
 
-        <a href="#" className="navigation-item">
-          <span className="navigation-icon">▣</span>
+        <a
+          href="/contratos"
+          className="navigation-item"
+          onClick={(event) =>
+            handleNavigation(event, '/contratos')
+          }
+        >
+          <span className="navigation-icon">
+            ▣
+          </span>
+
           <span>Contratos</span>
         </a>
 
-        <a href="#" className="navigation-item">
-          <span className="navigation-icon">◈</span>
+        <a
+          href="#"
+          className="navigation-item"
+          onClick={(event) =>
+            event.preventDefault()
+          }
+        >
+          <span className="navigation-icon">
+            ◈
+          </span>
+
           <span>Serviços</span>
         </a>
 
-        <a href="#" className="navigation-item">
-          <span className="navigation-icon">⌁</span>
+        <a
+          href="#"
+          className="navigation-item"
+          onClick={(event) =>
+            event.preventDefault()
+          }
+        >
+          <span className="navigation-icon">
+            ⌁
+          </span>
+
           <span>Rede</span>
         </a>
 
@@ -48,13 +112,31 @@ export default function Sidebar() {
           <span>FINANCEIRO</span>
         </div>
 
-        <a href="#" className="navigation-item">
-          <span className="navigation-icon">R$</span>
+        <a
+          href="#"
+          className="navigation-item"
+          onClick={(event) =>
+            event.preventDefault()
+          }
+        >
+          <span className="navigation-icon">
+            R$
+          </span>
+
           <span>Faturamento</span>
         </a>
 
-        <a href="#" className="navigation-item">
-          <span className="navigation-icon">✓</span>
+        <a
+          href="#"
+          className="navigation-item"
+          onClick={(event) =>
+            event.preventDefault()
+          }
+        >
+          <span className="navigation-icon">
+            ✓
+          </span>
+
           <span>Pagamentos</span>
         </a>
 
@@ -62,8 +144,17 @@ export default function Sidebar() {
           <span>SISTEMA</span>
         </div>
 
-        <a href="#" className="navigation-item">
-          <span className="navigation-icon">⚙</span>
+        <a
+          href="#"
+          className="navigation-item"
+          onClick={(event) =>
+            event.preventDefault()
+          }
+        >
+          <span className="navigation-icon">
+            ⚙
+          </span>
+
           <span>Configurações</span>
         </a>
       </nav>
