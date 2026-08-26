@@ -11,6 +11,7 @@ import AppLayout from './components/layout/AppLayout'
 import Dashboard from './pages/dashboard/Dashboard'
 import CustomersPro from './pages/customers/CustomersPro'
 import CustomerNew from './pages/customers/CustomerNew'
+import Network from './pages/network/Network'
 import Login from './pages/auth/Login'
 import { getSessionUser } from './api/session'
 
@@ -90,6 +91,8 @@ function App() {
     page = <CustomerNew />
   } else if (path === '/clientes') {
     page = <CustomersPro />
+  } else if (path === '/rede') {
+    page = <Network />
   } else {
     page = <Dashboard />
   }
