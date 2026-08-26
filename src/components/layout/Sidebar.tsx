@@ -1,3 +1,11 @@
+function isActive(path: string): boolean {
+  const current = window.location.pathname.replace(/\/+$/, '') || '/'
+  return current === path || (path !== '/' && current.startsWith(`${path}/`))
+}
+
+const navigationClass = (path: string): string =>
+  `navigation-item${isActive(path) ? ' active' : ''}`
+
 export default function Sidebar() {
   return (
     <aside className="sidebar">
@@ -15,7 +23,7 @@ export default function Sidebar() {
           <span>PRINCIPAL</span>
         </div>
 
-        <a href="/" className="navigation-item active">
+        <a href="/" className={navigationClass('/')}>
           <span className="navigation-icon">⌂</span>
           <span>Dashboard</span>
         </a>
@@ -24,22 +32,22 @@ export default function Sidebar() {
           <span>OPERAÇÃO</span>
         </div>
 
-        <a href="/clientes" className="navigation-item">
+        <a href="/clientes" className={navigationClass('/clientes')}>
           <span className="navigation-icon">◉</span>
           <span>Clientes</span>
         </a>
 
-        <a href="#" className="navigation-item">
+        <a href="#" className="navigation-item navigation-item-disabled" aria-disabled="true" onClick={(event) => event.preventDefault()}>
           <span className="navigation-icon">▣</span>
           <span>Contratos</span>
         </a>
 
-        <a href="#" className="navigation-item">
+        <a href="#" className="navigation-item navigation-item-disabled" aria-disabled="true" onClick={(event) => event.preventDefault()}>
           <span className="navigation-icon">◈</span>
           <span>Serviços</span>
         </a>
 
-        <a href="#" className="navigation-item">
+        <a href="/rede" className={navigationClass('/rede')}>
           <span className="navigation-icon">⌁</span>
           <span>Rede</span>
         </a>
@@ -48,12 +56,12 @@ export default function Sidebar() {
           <span>FINANCEIRO</span>
         </div>
 
-        <a href="#" className="navigation-item">
+        <a href="#" className="navigation-item navigation-item-disabled" aria-disabled="true" onClick={(event) => event.preventDefault()}>
           <span className="navigation-icon">R$</span>
           <span>Faturamento</span>
         </a>
 
-        <a href="#" className="navigation-item">
+        <a href="#" className="navigation-item navigation-item-disabled" aria-disabled="true" onClick={(event) => event.preventDefault()}>
           <span className="navigation-icon">✓</span>
           <span>Pagamentos</span>
         </a>
@@ -62,7 +70,7 @@ export default function Sidebar() {
           <span>SISTEMA</span>
         </div>
 
-        <a href="#" className="navigation-item">
+        <a href="#" className="navigation-item navigation-item-disabled" aria-disabled="true" onClick={(event) => event.preventDefault()}>
           <span className="navigation-icon">⚙</span>
           <span>Configurações</span>
         </a>
