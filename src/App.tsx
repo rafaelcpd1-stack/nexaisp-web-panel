@@ -5,10 +5,11 @@ import {
 
 import './styles/nexaisp.css'
 import './styles/dashboard-polish.css'
+import './styles/isp-core.css'
 
 import AppLayout from './components/layout/AppLayout'
 import Dashboard from './pages/dashboard/Dashboard'
-import Customers from './pages/customers/Customers'
+import CustomersPro from './pages/customers/CustomersPro'
 import CustomerNew from './pages/customers/CustomerNew'
 import Login from './pages/auth/Login'
 import { getSessionUser } from './api/session'
@@ -88,7 +89,7 @@ function App() {
   if (path === '/clientes/novo') {
     page = <CustomerNew />
   } else if (path === '/clientes') {
-    page = <Customers />
+    page = <CustomersPro />
   } else {
     page = <Dashboard />
   }
