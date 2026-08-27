@@ -1,15 +1,20 @@
 import type { ReactNode } from 'react'
+
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
 
 interface AppLayoutProps {
   children: ReactNode
+  onNavigate: (to: string) => void
 }
 
-export default function AppLayout({ children }: AppLayoutProps) {
+export default function AppLayout({
+  children,
+  onNavigate,
+}: AppLayoutProps) {
   return (
     <div className="nexaisp-app">
-      <Sidebar />
+      <Sidebar onNavigate={onNavigate} />
 
       <main className="main-content">
         <Topbar />

@@ -11,6 +11,7 @@ import Dashboard from './pages/dashboard/Dashboard'
 import Customers from './pages/customers/Customers'
 import CustomerNew from './pages/customers/CustomerNew'
 import Contracts from './pages/contracts/Contracts'
+import Services from './pages/services/Services'
 import Login from './pages/auth/Login'
 import { getSessionUser } from './api/session'
 
@@ -128,6 +129,8 @@ function App() {
     )
   } else if (path === '/contratos') {
     page = <Contracts />
+  } else if (path === '/servicos') {
+    page = <Services />
   } else {
     page = <Dashboard />
   }

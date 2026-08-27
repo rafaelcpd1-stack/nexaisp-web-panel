@@ -81,10 +81,10 @@ export default function Sidebar({
         </a>
 
         <a
-          href="#"
+          href="/servicos"
           className="navigation-item"
           onClick={(event) =>
-            event.preventDefault()
+            handleNavigation(event, '/servicos')
           }
         >
           <span className="navigation-icon">
