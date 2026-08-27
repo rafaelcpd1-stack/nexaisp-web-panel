@@ -95,6 +95,20 @@ export default function Sidebar({
         </a>
 
         <a
+          href="/planos"
+          className="navigation-item"
+          onClick={(event) =>
+            handleNavigation(event, '/planos')
+          }
+        >
+          <span className="navigation-icon">
+            ▤
+          </span>
+
+          <span>Planos</span>
+        </a>
+
+        <a
           href="#"
           className="navigation-item"
           onClick={(event) =>
