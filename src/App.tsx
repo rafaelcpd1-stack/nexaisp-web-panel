@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import {
   Navigate,
   Route,
@@ -8,7 +9,7 @@ import {
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
-import CustomersPage from "./pages/CustomersPage";
+const CustomersPage = lazy(() => import("./pages/CustomersPage"));
 
 function ProtectedRoute() {
   const { authenticated, loading } = useAuth();
@@ -38,14 +39,34 @@ function ProtectedRoute() {
   return <DashboardPage />;
 }
 
+function RouteLoading() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        background: "#f5f7fb",
+        color: "#68738a",
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      }}
+    >
+      Carregando NexaISP...
+    </div>
+  );
+}
+
 function ApplicationRoutes() {
   return (
-    <Routes>
+    <Suspense fallback={<RouteLoading />}>
+      <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<ProtectedRoute />} />
       <Route path="/clientes" element={<CustomersPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   );
 }
 
