@@ -1,0 +1,177 @@
+import { useEffect, useState } from "react";
+import { getCurrentUser, type MeResponse } from "./api/auth";
+import "./App.css";
+
+type TestState = {
+  loading: boolean;
+  csrf: string;
+  me: string;
+  user: MeResponse["user"] | null;
+  error: string | null;
+};
+
+async function testCsrf(): Promise<string> {
+  const response = await fetch("/api/csrf-token", {
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`CSRF HTTP ${response.status}`);
+  }
+
+  const data = (await response.json()) as { token?: string };
+
+  return data.token ? "OK — token recebido" : "ERRO — token ausente";
+}
+
+function App() {
+  const [state, setState] = useState<TestState>({
+    loading: true,
+    csrf: "Testando...",
+    me: "Testando...",
+    user: null,
+    error: null,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function runTest() {
+      try {
+        const csrf = await testCsrf();
+
+        let me = "";
+        let user: MeResponse["user"] | null = null;
+
+        try {
+          const response = await getCurrentUser();
+          me = "AUTENTICADO";
+          user = response.user;
+        } catch (error) {
+          me =
+            error instanceof Error
+              ? error.message
+              : "Usuário não autenticado";
+        }
+
+        if (!cancelled) {
+          setState({
+            loading: false,
+            csrf,
+            me,
+            user,
+            error: null,
+          });
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setState({
+            loading: false,
+            csrf: "ERRO",
+            me: "Não testado",
+            user: null,
+            error:
+              error instanceof Error
+                ? error.message
+                : "Erro desconhecido",
+          });
+        }
+      }
+    }
+
+    runTest();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        padding: 24,
+        background: "#f5f7fb",
+      }}
+    >
+      <section
+        style={{
+          width: "min(620px, 100%)",
+          padding: 28,
+          border: "1px solid #e5e9f1",
+          borderRadius: 18,
+          background: "#fff",
+          boxShadow: "0 15px 40px rgba(16,37,107,.08)",
+        }}
+      >
+        <h1 style={{ marginTop: 0 }}>NexaISP Core — Teste de Integração</h1>
+
+        <p style={{ color: "#68738a" }}>
+          Teste temporário do Web Panel V2 → Core.
+        </p>
+
+        <div style={{ marginTop: 24 }}>
+          <strong>CSRF:</strong>
+          <span style={{ marginLeft: 10 }}>{state.csrf}</span>
+        </div>
+
+        <div style={{ marginTop: 14 }}>
+          <strong>/api/me:</strong>
+          <span style={{ marginLeft: 10 }}>{state.me}</span>
+        </div>
+
+        {state.user && (
+          <div
+            style={{
+              marginTop: 20,
+              padding: 16,
+              borderRadius: 12,
+              background: "#eef6ff",
+            }}
+          >
+            <strong>Usuário autenticado</strong>
+
+            <div style={{ marginTop: 10 }}>
+              Nome: {state.user.name}
+            </div>
+
+            <div style={{ marginTop: 4 }}>
+              E-mail: {state.user.email}
+            </div>
+
+            <div style={{ marginTop: 4 }}>
+              Empresa: {state.user.company_id}
+            </div>
+          </div>
+        )}
+
+        {state.error && (
+          <div
+            style={{
+              marginTop: 20,
+              padding: 14,
+              borderRadius: 10,
+              background: "#fff0f0",
+              color: "#c73b3b",
+            }}
+          >
+            {state.error}
+          </div>
+        )}
+
+        {state.loading && (
+          <p style={{ marginTop: 20, color: "#68738a" }}>
+            Testando comunicação com o Core...
+          </p>
+        )}
+      </section>
+    </main>
+  );
+}
+
+export default App;
