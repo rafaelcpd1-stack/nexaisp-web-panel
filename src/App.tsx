@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 const CustomersPage = lazy(() => import("./pages/CustomersPage"));
+const ModulePlaceholderPage = lazy(() => import("./pages/ModulePlaceholderPage"));
 
 function ProtectedRoute() {
   const { authenticated, loading } = useAuth();
@@ -61,9 +62,28 @@ function ApplicationRoutes() {
   return (
     <Suspense fallback={<RouteLoading />}>
       <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<ProtectedRoute />} />
-      <Route path="/clientes" element={<CustomersPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/" element={<ProtectedRoute />} />
+        <Route path="/clientes" element={<CustomersPage />} />
+
+        <Route path="/contratos" element={<ModulePlaceholderPage />} />
+        <Route path="/planos" element={<ModulePlaceholderPage />} />
+        <Route path="/financeiro" element={<ModulePlaceholderPage />} />
+        <Route path="/atendimentos" element={<ModulePlaceholderPage />} />
+        <Route path="/ordens-servico" element={<ModulePlaceholderPage />} />
+
+        <Route path="/dispositivos" element={<ModulePlaceholderPage />} />
+        <Route path="/olt-onu" element={<ModulePlaceholderPage />} />
+        <Route path="/radius" element={<ModulePlaceholderPage />} />
+        <Route path="/ipam" element={<ModulePlaceholderPage />} />
+        <Route path="/monitoramento" element={<ModulePlaceholderPage />} />
+
+        <Route path="/estoque" element={<ModulePlaceholderPage />} />
+        <Route path="/fiscal" element={<ModulePlaceholderPage />} />
+        <Route path="/relatorios" element={<ModulePlaceholderPage />} />
+        <Route path="/configuracoes" element={<ModulePlaceholderPage />} />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
