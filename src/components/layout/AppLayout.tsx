@@ -1,38 +1,21 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 
 type AppLayoutProps = {
-  children: ReactNode;
+  children?: ReactNode;
 };
 
-export function AppLayout({
-  children,
-}: AppLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
+export function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className="app-shell">
-      {sidebarOpen && (
-        <button
-          type="button"
-          className="mobile-overlay"
-          onClick={() => setSidebarOpen(false)}
-          aria-label="Fechar menu"
-        />
-      )}
-
-      <Sidebar
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+      <Sidebar />
 
       <main className="main-content">
-        <Topbar
-          onMenuClick={() => setSidebarOpen(true)}
-        />
+        <Topbar />
 
-        {children}
+        {children ?? <Outlet />}
       </main>
     </div>
   );

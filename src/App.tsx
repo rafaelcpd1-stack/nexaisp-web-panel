@@ -65,26 +65,41 @@ function ApplicationRoutes() {
         <Route path="/login" element={<LoginPage />} />
 
         <Route path="/" element={<ProtectedRoute />} />
-        <Route path="/clientes" element={<CustomersPage />} />
 
-        <Route path="/contratos" element={<ModulePlaceholderPage />} />
-        <Route path="/planos" element={<ModulePlaceholderPage />} />
-        <Route path="/financeiro" element={<ModulePlaceholderPage />} />
-        <Route path="/atendimentos" element={<ModulePlaceholderPage />} />
-        <Route path="/ordens-servico" element={<ModulePlaceholderPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/clientes" element={<CustomersPage />} />
 
-        <Route path="/dispositivos" element={<ModulePlaceholderPage />} />
-        <Route path="/olt-onu" element={<ModulePlaceholderPage />} />
-        <Route path="/radius" element={<ModulePlaceholderPage />} />
-        <Route path="/ipam" element={<ModulePlaceholderPage />} />
-        <Route path="/monitoramento" element={<ModulePlaceholderPage />} />
+          <Route path="/contratos" element={<ModulePlaceholderPage />} />
+          <Route path="/planos" element={<ModulePlaceholderPage />} />
+          <Route path="/financeiro" element={<ModulePlaceholderPage />} />
+          <Route path="/atendimentos" element={<ModulePlaceholderPage />} />
+          <Route
+            path="/ordens-servico"
+            element={<ModulePlaceholderPage />}
+          />
 
-        <Route path="/estoque" element={<ModulePlaceholderPage />} />
-        <Route path="/fiscal" element={<ModulePlaceholderPage />} />
-        <Route path="/relatorios" element={<ModulePlaceholderPage />} />
-        <Route path="/configuracoes" element={<ModulePlaceholderPage />} />
+          <Route
+            path="/dispositivos"
+            element={<ModulePlaceholderPage />}
+          />
+          <Route path="/olt-onu" element={<ModulePlaceholderPage />} />
+          <Route path="/radius" element={<ModulePlaceholderPage />} />
+          <Route path="/ipam" element={<ModulePlaceholderPage />} />
+          <Route
+            path="/monitoramento"
+            element={<ModulePlaceholderPage />}
+          />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/estoque" element={<ModulePlaceholderPage />} />
+          <Route path="/fiscal" element={<ModulePlaceholderPage />} />
+          <Route path="/relatorios" element={<ModulePlaceholderPage />} />
+          <Route
+            path="/configuracoes"
+            element={<ModulePlaceholderPage />}
+          />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
       </Routes>
     </Suspense>
   );

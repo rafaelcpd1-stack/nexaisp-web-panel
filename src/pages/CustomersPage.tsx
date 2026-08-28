@@ -1,8 +1,6 @@
 import {
-  ArrowLeft,
   Building2,
   ChevronDown,
-  FileText,
   Plus,
   RefreshCw,
   Search,
@@ -10,9 +8,7 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getCustomers, type Customer } from "../api/customers";
-import { useAuth } from "../auth/AuthContext";
 import "../App.css";
 
 function formatDate(value: string): string {
@@ -64,9 +60,6 @@ function formatStatus(status: string): string {
 }
 
 function CustomersPage() {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -125,134 +118,8 @@ function CustomersPage() {
     });
   }, [customers, search, statusFilter]);
 
-  async function handleLogout() {
-    try {
-      await logout();
-      navigate("/login", { replace: true });
-    } catch (logoutError) {
-      console.error("Erro ao sair:", logoutError);
-    }
-  }
-
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="sidebar-brand">
-          <div className="brand-mark">
-            <GaugeIcon />
-          </div>
-
-          <div>
-            <strong>NexaISP</strong>
-            <span>Telecom Management</span>
-          </div>
-        </div>
-
-        <div className="sidebar-provider">
-          <div className="provider-logo">
-            <Users size={22} />
-          </div>
-
-          <div>
-            <strong>NexaISP Telecom</strong>
-            <span>ID: nexaisp</span>
-          </div>
-
-          <i className="online-dot" />
-        </div>
-
-        <nav className="sidebar-nav">
-          <button
-            type="button"
-            className="nav-item"
-            onClick={() => navigate("/")}
-          >
-            <ArrowLeft size={18} />
-            <span>Dashboard</span>
-          </button>
-
-          <div className="nav-section-label">PRINCIPAL</div>
-
-          <button
-            type="button"
-            className="nav-item active"
-            aria-current="page"
-          >
-            <Users size={18} />
-            <span>Clientes</span>
-          </button>
-
-          <button type="button" className="nav-item">
-            <FileText size={18} />
-            <span>Contratos</span>
-          </button>
-
-          <button type="button" className="nav-item">
-            <Building2 size={18} />
-            <span>Planos</span>
-          </button>
-        </nav>
-
-        <div className="sidebar-user">
-          <div className="avatar">
-            {(user?.name || "RS")
-              .split(" ")
-              .map((part) => part[0])
-              .join("")
-              .slice(0, 2)
-              .toUpperCase()}
-          </div>
-
-          <div className="user-copy">
-            <strong>{user?.name || "Usuário"}</strong>
-            <span>Administrador</span>
-          </div>
-
-          <button
-            type="button"
-            className="sidebar-logout-button"
-            onClick={handleLogout}
-            aria-label="Sair"
-            title="Sair"
-          >
-            <ChevronDown size={17} />
-          </button>
-        </div>
-      </aside>
-
-      <main className="main-content">
-        <header className="topbar">
-          <div className="topbar-left">
-            <div className="global-search">
-              <Search size={18} />
-              <input
-                type="text"
-                placeholder="Pesquisar clientes..."
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                aria-label="Pesquisar clientes"
-              />
-            </div>
-          </div>
-
-          <div className="topbar-actions">
-            <button
-              type="button"
-              className="icon-button"
-              onClick={() => void loadCustomers(true)}
-              disabled={refreshing}
-              title="Atualizar"
-              aria-label="Atualizar clientes"
-            >
-              <RefreshCw
-                size={18}
-                className={refreshing ? "spin" : ""}
-              />
-            </button>
-          </div>
-        </header>
-
-        <div className="page-content customers-page">
+      <div className="page-content customers-page">
           <section className="page-heading customers-heading">
             <div>
               <span className="page-kicker">GESTÃO DE CLIENTES</span>
@@ -333,6 +200,31 @@ function CustomersPage() {
               </div>
 
               <div className="customers-filters">
+                <div className="customer-search">
+                  <Search size={15} />
+                  <input
+                    type="search"
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    placeholder="Buscar cliente..."
+                    aria-label="Buscar cliente"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  className="customer-refresh-button"
+                  onClick={() => void loadCustomers(true)}
+                  disabled={refreshing}
+                  title="Atualizar clientes"
+                  aria-label="Atualizar clientes"
+                >
+                  <RefreshCw
+                    size={15}
+                    className={refreshing ? "spin" : ""}
+                  />
+                </button>
+
                 <div className="customer-filter">
                   <select
                     value={statusFilter}
@@ -454,34 +346,6 @@ function CustomersPage() {
             )}
           </section>
         </div>
-      </main>
-    </div>
-  );
-}
-
-function GaugeIcon() {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        d="M4 16a8 8 0 1 1 16 0"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 12l4-4"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <circle cx="12" cy="16" r="1.5" fill="currentColor" />
-    </svg>
   );
 }
 
